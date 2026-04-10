@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camera – Pose-In Booth</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/camera.css" />
+</head>
+<body>
+
+  <div class="camera-container">
+
+    <!-- ── RENDER LAYERS ── -->
+    <!-- Layer 1: Live camera feed (background) -->
+    <video id="video" autoplay playsinline muted></video>
+
+    <!-- Layer 2: Wall image (animated in via JS render loop) -->
+    <!-- Wall is drawn onto the composite canvas, not a separate DOM element -->
+
+    <!-- Layer 3: Composite canvas (what MediaRecorder records) -->
+    <canvas id="composite-canvas"></canvas>
+
+    <!-- Layer 4: Landmark overlay canvas (drawn on top each frame) -->
+    <canvas id="landmark-canvas"></canvas>
+
+    <!-- ── HUD (Heads-Up Display) ── -->
+    <div class="hud">
+
+      <div class="hud-top">
+        <a href="index.html" class="btn-back">← Back</a>
+        <div class="hud-indicators">
+          <div class="indicator" id="timer-display">
+            <span class="indicator-label">Time</span>
+            <span class="indicator-value" id="timer-value">--</span>
+          </div>
+          <div class="indicator" id="accuracy-display">
+            <span class="indicator-label">Accuracy</span>
+            <span class="indicator-value" id="accuracy-value">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <button class="btn-cutout" id="cutout-btn" title="Choose a cutout">
+          🧩 Cutouts
+        </button>
+        <button class="btn-capture" id="capture-btn" title="Start the session">
+          ⬤
+        </button>
+        <div class="hud-spacer"></div>
+      </div>
+
+    </div>
+
+    <!-- ── CUTOUT PICKER PANEL ── -->
+    <div class="cutout-panel hidden" id="cutout-panel">
+      <div class="cutout-panel-header">
+        <h2>Choose a Cutout</h2>
+        <button class="btn-close" id="cutout-close">✕</button>
+      </div>
+      <div class="cutout-grid" id="cutout-grid">
+        <!-- Populated dynamically by ui.js -->
+      </div>
+    </div>
+
+    <!-- ── COUNTDOWN OVERLAY ── -->
+    <div class="countdown-overlay hidden" id="countdown-overlay">
+      <span class="countdown-number" id="countdown-number">3</span>
+    </div>
+
+    <!-- ── RESULT OVERLAY ── -->
+    <div class="result-overlay hidden" id="result-overlay">
+      <div class="result-content">
+        <div class="result-icon" id="result-icon">🎉</div>
+        <h2 class="result-title" id="result-title">You made it!</h2>
+        <p class="result-score" id="result-score">Accuracy: 0%</p>
+        <p class="result-saving">Saving your video...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SCRIPTS ── -->
+  <!-- MediaPipe CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.js" crossorigin="anonymous"></script>
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+  <script type="module">
+    import { initCamera }     from './js/camera.js';
+    import { initMediaPipe }  from './js/mediapipe.js';
+    import { initWall }       from './js/wall.js';
+    import { initRecorder }   from './js/recorder.js';
+    import { initAnimations } from './js/animations.js';
+    import { initCameraUI }   from './js/ui.js';
+
+    // Boot sequence
+    await initCamera();
+    await initMediaPipe();
+    initWall();
+    initRecorder();
+    initAnimations();
+    initCameraUI();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replay Session</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page page-collections">
+  <main class="replay-shell">
+    <header class="collections-topbar">
+      <a class="back-button" href="collections.html">Back</a>
+      <h1 id="replayTitle">Replay of Session</h1>
+      <div id="replayClipCount" class="clip-count">0 clips</div>
+    </header>
+
+    <section class="replay-stage">
+      <article class="replay-card">
+        <div class="replay-preview">
+          <video id="replayVideo" controls playsinline class="hidden"></video>
+          <button id="replayPreviewTrigger" class="replay-mock" type="button" aria-label="Replay clip">
+            <span class="preview-play"></span>
+          </button>
+          <span id="replayDuration" class="preview-duration">0:42</span>
+        </div>
+
+        <div class="replay-meta">
+          <span id="replayMode" class="meta-pill">Easy</span>
+          <span id="replaySize" class="meta-pill">1.2 MB</span>
+          <span id="replayDate" class="meta-pill">April 11</span>
+        </div>
+
+        <div class="replay-actions">
+          <button id="replayAction" class="action stage-button replay-button" type="button">Replay</button>
+          <button id="saveAction" class="action stage-button replay-button" type="button">Save</button>
+          <button id="deleteAction" class="action stage-button replay-button" type="button">Delete</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="replay.js"></script>
+</body>
+</html>

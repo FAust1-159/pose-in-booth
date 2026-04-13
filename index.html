@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pose-In Booth</title>
-  <link rel="stylesheet" href="css/global.css" />
-  <link rel="stylesheet" href="css/lobby.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Game Lobby</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page page-lobby">
+  <main class="shell">
+    <section class="stage-backdrop" aria-hidden="true">
+      <div class="stage-curtain curtain-left"></div>
+      <div class="stage-curtain curtain-right"></div>
+      <div class="stage-floor"></div>
+    </section>
 
-  <div class="lobby-container">
+    <section class="lobby-layout">
+      <div class="logo-placeholder">
+        <div class="logo-frame">
+          <img class="logo-image" src="./PSBimg/logo.png" alt="Game logo">
+        </div>
+      </div>
 
-    <div class="lobby-bg-grid"></div>
+      <nav class="menu-actions stage-menu" aria-label="Main menu">
+        <a class="action action-primary stage-button" href="camera.html">Start</a>
+        <a class="action action-secondary stage-button" href="collections.html">Collection</a>
+        <button id="howToPlayButton" class="action action-secondary stage-button" type="button">How To Play</button>
+      </nav>
+    </section>
+  </main>
 
-    <header class="lobby-header">
-      <div class="logo-mark">📸</div>
-      <h1 class="lobby-title">Pose<span class="accent">In</span></h1>
-      <p class="lobby-subtitle">Step up. Strike a pose. Break through.</p>
-    </header>
+  <div id="howToPlayModal" class="pose-modal-overlay hidden">
+    <div class="pose-modal howto-modal">
+      <header class="pose-modal-header">
+        <button id="closeHowToPlay" class="back-button pose-back-button" type="button">Back</button>
+        <h2>How To Play</h2>
+      </header>
 
-    <nav class="lobby-nav">
-      <a href="camera.html" class="btn btn-primary">
-        <span class="btn-icon">▶</span>
-        Start
-      </a>
-      <a href="collections.html" class="btn btn-secondary">
-        <span class="btn-icon">🎞</span>
-        Collections
-      </a>
-    </nav>
+      <div class="howto-content">
+        <p>Choose a pose, stand in front of the camera, and match the cutout as closely as you can.</p>
+        <p>Press <strong>Capture</strong> to start, hold your position, and aim for the highest accuracy.</p>
+        <p>Your clip saves automatically after the round and can be viewed in <strong>Collection</strong>.</p>
+      </div>
 
-    <footer class="lobby-footer">
-      <p>Powered by MediaPipe &amp; Firebase</p>
-    </footer>
-
+      <footer class="pose-modal-actions">
+        <button id="howToPlayDone" class="modal-button modal-confirm" type="button">Got It</button>
+      </footer>
+    </div>
   </div>
 
+  <script src="index.js"></script>
 </body>
 </html>

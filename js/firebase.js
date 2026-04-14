@@ -9,15 +9,17 @@
 //
 
 const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID",
+  apiKey: "AIzaSyDZ938flIWioajlKMJILTgENlvpusotA4o",
+  authDomain: "pose-in-booth-grp2.firebaseapp.com",
+  projectId: "pose-in-booth-grp2",
+  storageBucket: "pose-in-booth-grp2.firebasestorage.app",
+  messagingSenderId: "213893343455",
+  appId: "1:213893343455:web:ce27c6eae19a21702ee16a",
+  measurementId: "G-593E740WWT"
 };
 
 firebase.initializeApp(firebaseConfig);
+
 
 export const db      = firebase.firestore();
 export const storage = firebase.storage();

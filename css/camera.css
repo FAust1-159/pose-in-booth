@@ -21,7 +21,7 @@
   object-fit: cover;
 }
 
-#video            { z-index: 1; }
+#video            { z-index: 1; transform: scaleX(-1) }
 #composite-canvas { z-index: 2; }
 #landmark-canvas  { z-index: 3; pointer-events: none; }
 

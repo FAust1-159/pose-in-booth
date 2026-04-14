@@ -18,25 +18,38 @@ let wallSpeed      = 6;      // pixels per frame the wall moves
 // Developers: update these coordinates to match your wall asset.
 // x/y are in canvas pixels. Use a tool like https://www.image-map.net/
 // to trace the hole's outline from your wall image.
-let cutoutPolygon = [
+let cutoutEasy1 = [
   // Example: a rough humanoid running shape — REPLACE with real coordinates
-  { x: 580, y:  60 },
-  { x: 640, y: 110 },
-  { x: 680, y: 200 },
-  { x: 660, y: 320 },
-  { x: 700, y: 430 },
-  { x: 660, y: 520 },
-  { x: 600, y: 460 },
-  { x: 620, y: 350 },
-  { x: 580, y: 280 },
-  { x: 520, y: 340 },
-  { x: 490, y: 490 },
-  { x: 430, y: 520 },
-  { x: 450, y: 390 },
-  { x: 490, y: 260 },
-  { x: 440, y: 180 },
-  { x: 480, y:  80 },
-  { x: 540, y:  50 },
+  { x: 633, y: 183 },
+  { x: 486, y: 179 },
+  { x: 406, y: 300 },
+  { x: 446, y: 332 },
+  { x: 524, y: 234 },
+  { x: 595, y: 246 },
+  { x: 462, y: 518 },
+  { x: 356, y: 592 },
+  { x: 354, y: 685 },
+  { x: 401, y: 695 },
+  { x: 413, y: 634 },
+  { x: 516, y: 559 },
+  { x: 576, y: 449 },
+  { x: 691, y: 517 },
+  { x: 648, y: 653 },
+  { x: 764, y: 713 },
+  { x: 723, y: 635 },
+  { x: 768, y: 481 },
+  { x: 644, y: 412 },
+  { x: 697, y: 304 },
+  { x: 770, y: 385 },
+  { x: 904, y: 297 },
+  { x: 871, y: 255 },
+  { x: 778, y: 314 },
+  { x: 720, y: 227 },
+  { x: 816, y: 168 },
+  { x: 803, y: 71 },
+  { x: 722, y: 30 },
+  { x: 627, y: 81 },
+  // { x: 633, y: 183 }, for "closing" the polygon 
 ];
 
 // ── CUTOUT DEFINITIONS ──
@@ -46,8 +59,8 @@ export const CUTOUTS = [
   {
     id:      'running',
     label:   'Runner',
-    imgSrc:  'assets/cutouts/running-wall.png',
-    polygon: cutoutPolygon,   // replace with real coords per cutout
+    imgSrc:  'assets/cutouts/easy_1.png',
+    polygon: cutoutEasy1,   // replace with real coords per cutout
   },
   // {
   //   id:      'jumping',
@@ -115,7 +128,7 @@ export function calculateAccuracy(canvasWidth, canvasHeight) {
   if (!landmarks.length) return 0;
 
   // Shift polygon by current wall offset so it aligns with the moving image
-  const shiftedPolygon = activeCutout.polygon.map((pt) => ({
+  const shiftedPolygon = getMirroredPolygon(canvasWidth).map((pt) => ({
     x: pt.x + wallOffsetX,
     y: pt.y,
   }));
@@ -134,7 +147,7 @@ export function calculateAccuracy(canvasWidth, canvasHeight) {
 export function getLandmarkStatus(canvasWidth, canvasHeight) {
   const landmarks = getScoredLandmarks(canvasWidth, canvasHeight);
 
-  const shiftedPolygon = activeCutout.polygon.map((pt) => ({
+  const shiftedPolygon = getMirroredPolygon(canvasWidth).map((pt) => ({
     x: pt.x + wallOffsetX,
     y: pt.y,
   }));
@@ -160,4 +173,13 @@ function pointInPolygon(point, polygon) {
     if (intersect) inside = !inside;
   }
   return inside;
+}
+
+// --- POLYGON CUTOUT X-coord mirroring ---
+// In wall.js — mirror the polygon X coords against canvas width
+function getMirroredPolygon(canvasWidth) {
+  return activeCutout.polygon.map((pt) => ({
+    x: canvasWidth - pt.x, // 👈 flip X
+    y: pt.y,
+  }));
 }

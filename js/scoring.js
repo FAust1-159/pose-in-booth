@@ -7,9 +7,14 @@ import { lmCtx } from './camera.js';
 import { calculateAccuracy, getLandmarkStatus, isWallAnimating } from './wall.js';
 
 const PASS_THRESHOLD = 75; // % required to pass
+const DISPLAY_UPDATE_DELAY = 500; // The time delay for score updates
 
 // Shared live accuracy value (read by recorder.js for final score)
 export let liveAccuracy = 0;
+
+// For score update debouncing
+let lastDisplayUpdate = 0;
+let displayedAccuracy = 0;
 
 /**
  * updateScoring()
@@ -24,13 +29,19 @@ export function updateScoring(canvas) {
   // Always calculate score
   liveAccuracy = calculateAccuracy(w, h);
 
-  // Update HUD accuracy display
-  const display = document.getElementById('accuracy-value');
-  if (display) {
-    display.textContent = `${liveAccuracy}%`;
-    display.style.color = liveAccuracy >= PASS_THRESHOLD
-      ? 'var(--clr-success)'
-      : 'var(--clr-accent)';
+  const now = performance.now();
+  if (now - lastDisplayUpdate >= DISPLAY_UPDATE_DELAY) {
+    displayedAccuracy = liveAccuracy;
+    lastDisplayUpdate = now;
+
+    // Update HUD accuracy display
+    const display = document.getElementById('accuracy-value');
+    if (display) {
+      display.textContent = `${liveAccuracy}%`;
+      display.style.color = liveAccuracy >= PASS_THRESHOLD
+        ? 'var(--clr-success)'
+        : 'var(--clr-accent)';
+    }
   }
 
   // Only draw dots once wall is fully in position

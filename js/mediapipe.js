@@ -81,7 +81,7 @@ export function getScoredLandmarks(canvasWidth, canvasHeight) {
       const lm = currentLandmarks[i];
       if (!lm || lm.visibility < MIN_VISIBILITY) return null;
       return {
-        x:          lm.x * canvasWidth,
+        x:          canvasWidth - (lm.x * canvasWidth), // flips x
         y:          lm.y * canvasHeight,
         visibility: lm.visibility,
         index:      i,

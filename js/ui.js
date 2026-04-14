@@ -15,9 +15,12 @@ import { playCountdown, playCongratsAnimation,
 const video           = document.getElementById('video');
 const compositeCanvas = document.getElementById('composite-canvas');
 const landmarkCanvas  = document.getElementById('landmark-canvas');
+const mirrorCanvas    = document.createElement('canvas');
+const mirrorCtx       = mirrorCanvas.getContext('2d');
 
 // Session state
 let sessionActive = false;
+let sessionReady = false;
 let timerInterval = null;
 let elapsedSecs   = 0;
 
@@ -30,20 +33,28 @@ function renderLoop() {
   const w = compositeCanvas.width;
   const h = compositeCanvas.height;
 
+  syncMirrorCanvasSize(w, h);
+
   // 1. Clear
   ctx.clearRect(0, 0, w, h);
 
-  // 2. Camera feed
-  ctx.drawImage(video, 0, 0, w, h);
+  // 2. Camera feed (mirrored once, then reused for preview + detection)
+  mirrorCtx.clearRect(0, 0, w, h);
+  mirrorCtx.save();
+  mirrorCtx.scale(-1, 1);
+  mirrorCtx.drawImage(video, -w, 0, w, h);
+  mirrorCtx.restore();
+  ctx.drawImage(mirrorCanvas, 0, 0, w, h);
 
-  // 3. MediaPipe detection
-  detectPose(video);
+  if(sessionReady) {
+    // 3. MediaPipe detection
+    detectPose(mirrorCanvas);
 
-  // 4. Wall (drawn onto composite canvas so it appears in recording)
-  drawWall(compositeCanvas);
+    // 4. Wall (drawn onto composite canvas so it appears in recording)
+    drawWall(compositeCanvas);
 
-  // 5. Scoring + landmark dots (drawn on separate landmark canvas — also composited)
-  if (sessionActive) {
+    // 5. Scoring + landmark dots (drawn on separate landmark canvas — also composited)
+    
     updateScoring(compositeCanvas);
 
     // Composite the landmark canvas on top
@@ -67,6 +78,7 @@ async function startSession() {
 
   const captureBtn = document.getElementById('capture-btn');
   captureBtn.disabled = true;
+  sessionReady = true;
   sessionActive = true;
 
   // Start recording immediately
@@ -126,6 +138,7 @@ async function startSession() {
 
 function resetSession() {
   sessionActive = false;
+  sessionReady = false;
   clearInterval(timerInterval);
   document.getElementById('result-overlay').classList.add('hidden');
   document.getElementById('capture-btn').disabled = false;
@@ -185,4 +198,9 @@ function bindCameraEvents() {
 }
 
 // ── HELPER ──
+function syncMirrorCanvasSize(w, h) {
+  if (mirrorCanvas.width !== w) mirrorCanvas.width = w;
+  if (mirrorCanvas.height !== h) mirrorCanvas.height = h;
+}
+
 function wait(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }

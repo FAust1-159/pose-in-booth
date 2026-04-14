@@ -1,6 +1,6 @@
-/* ════════════════════════
+/* =========================================
    LOBBY.CSS
-   ════════════════════════ */
+   ========================================= */
 
 .lobby-container {
   min-height: 100vh;
@@ -12,42 +12,84 @@
   padding: 40px 24px;
   position: relative;
   overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(255, 203, 88, 0.16), transparent 28%),
+    linear-gradient(180deg, #321321 0%, #1b0e18 100%);
 }
 
-/* Subtle grid background */
+.lobby-container::before,
+.lobby-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 28%;
+  height: 70%;
+  background: repeating-linear-gradient(
+    90deg,
+    #4f0d16 0 18px,
+    #7e1823 18px 36px,
+    #3d0b12 36px 54px
+  );
+  box-shadow: inset -12px 0 30px rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lobby-container::before {
+  left: 0;
+  border-bottom-right-radius: 28px;
+}
+
+.lobby-container::after {
+  right: 0;
+  border-bottom-left-radius: 28px;
+}
+
 .lobby-bg-grid {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(232,255,59,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232,255,59,0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+  inset: auto 0 0;
+  height: 38%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.08) 0 28px,
+    rgba(0, 0, 0, 0.16) 28px 56px
+  );
   pointer-events: none;
+  z-index: 0;
 }
 
-/* ── HEADER ── */
 .lobby-header {
+  position: relative;
+  z-index: 1;
   text-align: center;
   animation: fadeUp 0.6s ease both;
 }
 
+.lobby-header .header-logo {
+  margin: auto;
+}
+
 .logo-mark {
-  font-size: 3rem;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 0 20px rgba(232,255,59,0.4));
+  width: min(520px, 95vw);
+  height: auto;
+  margin: 0 auto 12px;
+  font-size: clamp(4rem, 10vw, 7rem);
+  line-height: 1;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35));
+  text-align: center;
 }
 
 .lobby-title {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 12vw, 8rem);
+  font-size: clamp(2.4rem, 5vw, 4rem);
   letter-spacing: 0.04em;
   line-height: 1;
   color: var(--clr-text);
+  text-transform: uppercase;
 }
 
 .lobby-title .accent {
   color: var(--clr-accent);
-  text-shadow: 0 0 40px rgba(232,255,59,0.4);
 }
 
 .lobby-subtitle {
@@ -58,32 +100,52 @@
   text-transform: uppercase;
 }
 
-/* ── NAV ── */
 .lobby-nav {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   width: 100%;
-  max-width: 280px;
+  max-width: 320px;
   animation: fadeUp 0.6s 0.1s ease both;
 }
 
 .lobby-nav .btn {
   width: 100%;
-  font-size: 1.5rem;
+  min-width: 270px;
+  min-height: 66px;
+  font-size: 1.28rem;
+  text-transform: uppercase;
 }
 
-/* ── FOOTER ── */
 .lobby-footer {
   position: absolute;
-  bottom: 24px;
+  bottom: 12px;
+  z-index: 1;
   color: var(--clr-text-muted);
   font-size: 0.75rem;
   letter-spacing: 0.05em;
 }
 
-/* ── ANIMATION ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .lobby-container {
+    padding-top: 56px;
+  }
+
+  .lobby-nav {
+    max-width: 280px;
+  }
 }

@@ -15,6 +15,7 @@ export async function initCamera() {
   try {
     videoStream = await navigator.mediaDevices.getUserMedia({
       video: {
+        // camera resolution
         width:       { ideal: 1280 },
         height:      { ideal: 720 },
         facingMode:  'user',       // front-facing camera

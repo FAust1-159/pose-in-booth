@@ -6,7 +6,7 @@
 // Uses: MediaPipe Tasks Vision JS SDK
 // Docs: https://developers.google.com/mediapipe/solutions/vision/pose_landmarker/web_js
 
-const { PoseLandmarker, FilesetResolver, DrawingUtils } = window;
+// const { PoseLandmarker, FilesetResolver, DrawingUtils } = window;
 
 export let poseLandmarker = null;
 
@@ -29,11 +29,17 @@ export const SCORED_INDICES = [
 const MIN_VISIBILITY = 0.5;
 
 export async function initMediaPipe() {
-  const vision = await FilesetResolver.forVisionTasks(
+  const vision = await import(
+    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/vision_bundle.mjs'
+  );
+
+  const { PoseLandmarker, FilesetResolver } = vision;
+
+  const filesetResolver = await FilesetResolver.forVisionTasks(
     'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision/wasm'
   );
 
-  poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+  poseLandmarker = await PoseLandmarker.createFromOptions(filesetResolver, {
     baseOptions: {
       modelAssetPath:
         'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task',
@@ -81,7 +87,7 @@ export function getScoredLandmarks(canvasWidth, canvasHeight) {
       const lm = currentLandmarks[i];
       if (!lm || lm.visibility < MIN_VISIBILITY) return null;
       return {
-        x:          lm.x * canvasWidth,
+        x:          canvasWidth - (lm.x * canvasWidth), // flips x
         y:          lm.y * canvasHeight,
         visibility: lm.visibility,
         index:      i,

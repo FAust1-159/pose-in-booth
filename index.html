@@ -14,9 +14,10 @@
     <div class="lobby-bg-grid"></div>
 
     <header class="lobby-header">
-      <div class="logo-mark">📸</div>
-      <h1 class="lobby-title">Pose<span class="accent">In</span></h1>
-      <p class="lobby-subtitle">Step up. Strike a pose. Break through.</p>
+      <!-- <div class="logo-mark">📸</div>
+      <h1 class="lobby-title">Pose<span class="accent">In</span></h1> -->
+      <img src="assets/cutouts/main_menu_logo.png" class="header-logo" width="70%">
+      <p class="lobby-subtitle">Step up  &bull;  Strike a pose  &bull;  Break a leg.</p>
     </header>
 
     <nav class="lobby-nav">
@@ -28,6 +29,9 @@
         <span class="btn-icon">🎞</span>
         Collections
       </a>
+      <button id="how-to-play-btn" class="btn btn-secondary" type="button">
+        ❓ How To Play
+      </button>
     </nav>
 
     <footer class="lobby-footer">
@@ -35,6 +39,43 @@
     </footer>
 
   </div>
+
+  <div id="how-to-play-modal" class="pose-modal-overlay hidden">
+    <div class="pose-modal howto-modal">
+      <header class="pose-modal-header">
+        <button id="how-to-play-close" class="btn-back pose-back-button" type="button">Back</button>
+        <h2>How To Play</h2>
+        <span></span>
+      </header>
+      <div class="howto-content">
+        <p>Choose a pose, stand in front of the camera, and match the cutout as closely as you can.</p>
+        <p>Press <strong>Capture</strong> to start, hold your position, and aim for the highest accuracy.</p>
+        <p>Your clip saves automatically after the round and can be viewed in <strong>Collections</strong>.</p>
+      </div>
+      <footer class="pose-modal-actions">
+        <button id="how-to-play-done" class="modal-button" type="button">Got It</button>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const _htpBtn = document.getElementById('how-to-play-btn');
+    const _htpModal = document.getElementById('how-to-play-modal');
+    const _htpClose = document.getElementById('how-to-play-close');
+    const _htpDone = document.getElementById('how-to-play-done');
+
+    function _openHtp() {
+      _htpModal.classList.remove('hidden');
+    }
+
+    function _closeHtp() {
+      _htpModal.classList.add('hidden');
+    }
+
+    _htpBtn.addEventListener('click', _openHtp);
+    _htpClose.addEventListener('click', _closeHtp);
+    _htpDone.addEventListener('click', _closeHtp);
+  </script>
 
 </body>
 </html>

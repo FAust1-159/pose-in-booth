@@ -1,11 +1,10 @@
 # Get Started
 
-1. Install Codex extension by OpenAI for your AI assistant
-2. (For Genesis) Setup a Firebase project
-3. Install Live Server extension
-4. Create your own branch following this naming convention: "dev-{name}"
-5. Do not push directly to main! Push on your branch and open a pull request
-6. Enjoy building!
+1. (For Genesis) Setup a Firebase project
+2. Install Live Server extension
+3. Create your own branch following this naming convention: "dev-{name}"
+4. Do not push directly to main! Push on your branch and open a pull request
+5. Enjoy building!
 
 ## Developer Taskings
 
@@ -29,3 +28,6 @@
 - collections.js
 - firebase.js
 - recorder.js
+
+### NOTE:
+In the web app, just hit refresh when encountering problems with saving videos
